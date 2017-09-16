@@ -15,7 +15,6 @@ client = boto3.client(
 response = client.list_tables()
 print(response)
 
-
 try:
     client.create_table(
         AttributeDefinitions=[

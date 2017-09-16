@@ -60,7 +60,7 @@ for movie in movies:
     dynamoMovie = {}
     for key, value in movie["fields"].items():
         if(value and value.strip() <> ''):
-            dynamoMovie[key.strip().replace('(', '').replace(')', '')] = {"S": value}
+            dynamoMovie[key.strip().replace('(', '').replace(')', '')] = {"S": value.strip().lower()}
     songTitleMovieTitle = dynamoMovie["movieTitle"]["S"] + dynamoMovie["Title"]["S"]
     if(songTitleMovieTitle not in keys):
         keys.append(songTitleMovieTitle)

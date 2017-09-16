@@ -6,7 +6,12 @@ from pprint import pprint
 movies = []
 dMovies = {}
 
-client = boto3.client('dynamodb', endpoint_url='http://localhost:8000')
+client = boto3.client(
+    'dynamodb', 
+    endpoint_url='https://dynamodb.' + os.environ['AWS_DEFAULT_REGION'] + '.amazonaws.com',
+    aws_access_key_id=os.environ['AWS_ACCESS_KEY_ID'],
+    aws_secret_access_key=os.environ['AWS_SECRET_ACCESS_KEY'],
+)
 response = client.list_tables()
 print(response)
 

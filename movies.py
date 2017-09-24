@@ -47,10 +47,10 @@ def movies(moviesUrl):
         rowContent = {}
         if(title >= 0): 
           if(title + shiftRight < len(tds)):
-            rowContent['movieTitle'] = tds[title + shiftRight].text_content()
+            rowContent['MovieTitle'] = tds[title + shiftRight].text_content()
             anchors = tds[title + shiftRight].cssselect('a')
             for anchor in anchors:
-              rowContent['movieUrl'] = "https://en.wikipedia.org" + anchor.attrib['href']
+              rowContent['MovieUrl'] = "https://en.wikipedia.org" + anchor.attrib['href']
         print rowContent
         # if(director >= 0): 
         #   rowContent['director'] = tds[director + shiftRight].text_content()

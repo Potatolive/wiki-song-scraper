@@ -14,7 +14,10 @@ client = boto3.client(
     aws_secret_access_key=os.environ['AWS_SECRET_ACCESS_KEY'],
 )
 response = client.list_tables()
-print(response)
+
+# if('MovieList' in response['TableNames']):
+#     client.delete_table(TableName='MovieList)
+#     print('Deleted MovieList table!')
 
 try:
     client.create_table(
@@ -27,10 +30,10 @@ try:
                 'AttributeName': 'Title',
                 'AttributeType': 'S',
             },
-            # {
-            #     'AttributeName': 'UniqueId',
-            #     'AttributeType': 'S',
-            # },
+            {
+                'AttributeName': 'UniqueId',
+                'AttributeType': 'S',
+            },
         ],
         KeySchema=[
             {
@@ -42,21 +45,21 @@ try:
                 'KeyType': 'RANGE',
             },
         ],
-        # GlobalSecondaryIndexes=[
-            # {
-            #     'IndexName': 'uniqueSongs',
-            #     'KeySchema': [
-            #         { 'AttributeName': "UniqueId", 'KeyType': "HASH"}
-            #     ],
-            #     'Projection': {
-            #         'ProjectionType': 'KEYS_ONLY'
-            #     },
-            #     'ProvisionedThroughput': {
-            #         'ReadCapacityUnits': 10,
-            #         'WriteCapacityUnits': 10
-            #     }
-            # }
-        # ],
+        GlobalSecondaryIndexes=[
+            {
+                'IndexName': 'uniqueSongs',
+                'KeySchema': [
+                    { 'AttributeName': "UniqueId", 'KeyType': "HASH"}
+                ],
+                'Projection': {
+                    'ProjectionType': 'KEYS_ONLY'
+                },
+                'ProvisionedThroughput': {
+                    'ReadCapacityUnits': 10,
+                    'WriteCapacityUnits': 10
+                }
+            }
+        ],
         ProvisionedThroughput={
             'ReadCapacityUnits': 5,
             'WriteCapacityUnits': 5,
@@ -65,7 +68,6 @@ try:
     )
 except client.exceptions.ResourceInUseException:
     print "Table already exists!"
-    # client.delete_table(TableName='MovieList')
     pass
 
 with open('./batches/csBatch.json', 'r') as data_file:    
